@@ -1,6 +1,6 @@
 - name: Home
   link: wir_project/
 - name: About
-  link: wir_project/about.html
+  link: /about.html
 - name: Posts
-  link: wir_project/blog.html
+  link: /blog.html
