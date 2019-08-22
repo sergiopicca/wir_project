@@ -1,0 +1,21 @@
+{
+  "0": {
+    "title": "About",
+    "content": "About page . This page tells you a little bit about me. . s = &quot;This is a code section&quot; print s .",
+    "url": "http://localhost:4000/about.html",
+    "relUrl": "/about.html"
+  },
+  "1": {
+    "title": "Blog",
+    "content": "Latest Posts . Bananas . A banana is an edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa. . . | .",
+    "url": "http://localhost:4000/blog.html",
+    "relUrl": "/blog.html"
+  },
+  "2": {
+    "title": "Home",
+    "content": "hello world! .",
+    "url": "http://localhost:4000/",
+    "relUrl": "/"
+  }
+  
+}
