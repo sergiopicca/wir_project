@@ -1,11 +1,11 @@
 - name: Home
-  link: /
+  link: /wir_project/
 
 - name: Classification functions
-  link: /pages/about.html
+  link: /wir_project/pages/about.html
 
 - name: Probabilities
-  link: /pages/probabilities
+  link: /wir_project/pages/probabilities
 
 - name: Tweet Classification
-  link: /pages/tweet_classification
+  link: /wir_project/pages/tweet_classification
