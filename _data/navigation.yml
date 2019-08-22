@@ -3,4 +3,8 @@
 - name: About
   link: wir_project/about.html
 - name: Posts
+<<<<<<< HEAD
   link: wir_project/blog.html
+=======
+  link: /blog.html
+>>>>>>> ff728a62af23c02e4c75e7da6871d47abdb8ac3d
