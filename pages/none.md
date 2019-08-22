@@ -199,6 +199,7 @@ If the we are in the case in which the entities have empty lineages, we return t
 ```
 ### Links
 
-- [```one_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/one.html)
-- [```multiple_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/multiple.html)
-- [```no_common_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/none.html)
+- [```one_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/one.html)
+- [```multiple_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/multiple.html)
+- [```no_common_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/none.html)
+    
