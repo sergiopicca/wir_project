@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "more_style.css",
+	"sources": [
+		"more_style.scss"
+	],
+	"sourcesContent": [
+		"@import \"hydejack-7.5.2.css\";"
+	],
+	"names": [],
+	"mappings": "AAAA,OAAO,CAAP,uBAAO"
+}
