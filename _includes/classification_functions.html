@@ -1,0 +1,13 @@
+{% for i in site.data.classification_functions %}
+<p>
+  <a class="btn btn-outline-info" data-toggle="collapse" href="#{{ i.function }}" role="button" aria-expanded="false" aria-controls="{{ i.function }}">
+    {{ i.function }}
+  </a>
+</p>
+<div class="collapse" id="{{ i.function }}">
+  <div class="card card-body">
+    {{ i.description }}
+  </div>
+</div>
+{% endfor %}
+<div>

@@ -2,6 +2,8 @@
 
 source "https://rubygems.org"
 gem "jekyll"
-git_source(:github) {|repo_name| "https://github.com/wir_project" }
+gem "just-the-docs"
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 # gem "rails"
+gem "rouge"

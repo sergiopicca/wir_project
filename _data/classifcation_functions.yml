@@ -1,0 +1,8 @@
+- function: one_node_types
+  description: THE ENTITIES IN THE TWEET HAVE ONLY ONE NODE IN COMMON
+
+- function: multiple_node_types
+  description: THE ENTITIES IN THE TWEET HAVE MORE THAN ONE NODE IN COMMON
+
+- function: no_common_nodes_types
+  description: THE ENTITIES HAVE NO NODE IN COMMON

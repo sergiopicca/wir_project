@@ -1,6 +1,11 @@
 - name: Home
   link: /
-- name: About
-  link: /about.html
-- name: Posts
-  link: /blog.html
+
+- name: Classification functions
+  link: /pages/about.html
+
+- name: Probabilities
+  link: /pages/probabilities
+
+- name: Tweet Classification
+  link: /pages/tweet_classification

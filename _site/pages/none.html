@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Classification Functions</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Classification Functions</h1>
+      <h3>Classification_functions.py - no_common_node_types</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="the-common-nodes-list-is-empty">The common nodes list is empty</h1>
+<p>We initialize three variables:</p>
+<ul>
+  <li><strong><em>first_nodes</em></strong>. Is a list that will contain the nodes extracted from the lineages of entities of the tweet.</li>
+  <li><strong><em>all_types</em></strong>. Is a list that will contain the types extracted as in the two previous functions <code class="highlighter-rouge">one_node_types</code> and  <code class="highlighter-rouge">multiple_node_types</code>.</li>
+  <li><strong><em>not_in</em></strong>. Is a boolean variable use to extract the types as in the two previous functions <code class="highlighter-rouge">one_node_types</code> and  <code class="highlighter-rouge">multiple_node_types</code>.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">first_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">all_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">not_in</span> <span class="o">=</span> <span class="bp">False</span>
+</code></pre></div></div>
+<h2 id="our-strategy">Our strategy</h2>
+<p>Since we do not have any node in common, whenever is possible for each entity we retrieve all the nodes from the index, searching for the best type by considering also the author and the associated probabilities.</p>
+
+<p>For each entity in the tweet that we have extract we get the nodes from the index.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="c1"># the nodes are sorted according to the score, from the highest to the lowest.
+</span>            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">inverted_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s">"score"</span><span class="p">],</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+<p>At the beginning we pick only the first node, but…</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            <span class="n">n1</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">first_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+</code></pre></div></div>
+<p>…if we have more than one nodes, we take all the node of the lineage of that particular entity in order to have more types to extract.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                    <span class="n">first_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre></div></div>
+<p>We may have three different cases according to the lenght of the <code class="highlighter-rouge">first_nodes</code> list.</p>
+
+<h2 id="more-than-one-node">More than one node</h2>
+<h3 id="this-happen-if-the-tweet-has-more-than-one-entity-with-multiple-nodes-in-its-lineage">This happen if the tweet has more than one entity with multiple nodes in its lineage</h3>
+
+<p>If we have more than one node in <code class="highlighter-rouge">first_nodes</code> we applicate the same principle of <strong><em>multiple node</em></strong> case. For each node in the list we extract the types, storing them in a and if “Thing” is present we remove it. For each type of that node we:</p>
+<ul>
+  <li>we search for the type t in the <code class="highlighter-rouge">all_types</code> list,</li>
+  <li>if the type is not present we have to add it in this way:
+    <ul>
+      <li><code class="highlighter-rouge">to_insert = {"type": t, "count": 1, "score": elem[2]}</code>
+  where:
+        <ul>
+          <li><strong><em>type</em></strong> is assigned to the current type name <strong><em>t</em></strong>;</li>
+          <li><strong><em>count</em></strong> is assigned to one, since is the first time we meet that type,</li>
+          <li><strong><em>score</em></strong> is the score of that type, given in that node.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>As usual at the beginning we remove the “Thing” type.</p>
+
+<p><strong><em>The only difference here is that we are operating with nodes coming from different lineages.</em></strong> Let’s examine the case in which the type is not present in the <code class="highlighter-rouge">all_types</code> list:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">first_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+
+        <span class="c1"># for each node
+</span>        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">first_nodes</span><span class="p">:</span>
+            <span class="c1"># we extract the types and we remove "Thing" if it is present.
+</span>            <span class="n">types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"types"</span><span class="p">))</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">types</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s">"Thing"</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+                <span class="n">types</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"Thing"</span><span class="p">)</span>
+
+            <span class="c1"># for each type we repeat the reasoning done in the case of multiple nodes
+</span>            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+                <span class="c1"># we search for the type t in the "all_types" list.
+</span>                <span class="c1"># if the type is not present in "all_types" we have to add it.
+</span>
+                <span class="n">there</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">all_types</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">),</span> <span class="bp">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">there</span><span class="p">:</span>
+                    <span class="n">to_insert</span> <span class="o">=</span> <span class="p">{</span><span class="s">"type"</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s">"count"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"score"</span><span class="p">:</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'score'</span><span class="p">)}</span>
+                    <span class="n">all_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_insert</span><span class="p">)</span>
+</code></pre></div></div>
+<p>If the type is already present we increment its counter and upgraded its score. The update of the score is done differently depending on the type of the tweet if it is one of the type twitted by the author of the tweet or not.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">present</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">),</span> <span class="bp">False</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">present</span><span class="p">:</span>
+                        <span class="n">couple</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span>
+                        <span class="k">print</span><span class="p">(</span><span class="s">"Type "</span> <span class="o">+</span> <span class="n">t</span> <span class="o">+</span> <span class="s">" is present with prob. : "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">couple</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                        <span class="n">to_change</span> <span class="o">=</span> <span class="n">all_types</span><span class="p">[</span><span class="n">all_types</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">there</span><span class="p">)]</span>
+                        <span class="n">to_change</span><span class="p">[</span><span class="s">"count"</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">])</span>
+</code></pre></div></div>
+<p>In the case the type is contained in the data-structure containing the probabilities we increment the score by considering the probabilities, so the overall score will be higher. The only thing that changes here wrt the previous cases, is how the score is retrieved from the element since <code class="highlighter-rouge">fist_nodes</code>
+ stores the nodes of the index that are dictionaries, this is why we have the “get” method.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                        <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'score'</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">couple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">)))</span>
+                        <span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">])</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">to_change</span> <span class="o">=</span> <span class="n">all_types</span><span class="p">[</span><span class="n">all_types</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">there</span><span class="p">)]</span>
+                        <span class="n">to_change</span><span class="p">[</span><span class="s">"count"</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">])</span>
+
+</code></pre></div></div>
+<p>If the type is not among the ones used by the author of the current tweet we update the score just by adding the score of the current node in the <code class="highlighter-rouge">fist_nodes</code> list.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                        
+                        <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">]</span> <span class="o">+</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'score'</span><span class="p">)</span>
+                        <span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">to_change</span><span class="p">[</span><span class="s">"score"</span><span class="p">])</span>
+
+        <span class="n">all_types</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_types</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span>  <span class="n">i</span><span class="p">[</span><span class="s">'score'</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="n">all_types</span><span class="p">)</span>
+        <span class="n">select_type</span> <span class="o">=</span> <span class="n">all_types</span>
+        <span class="n">predicted_tag</span> <span class="o">=</span> <span class="s">""</span>
+</code></pre></div></div>
+<p>Same check for the types of the case of multiple nodes…</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">while</span> <span class="n">predicted_tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_names</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">select_type</span><span class="p">:</span>
+                <span class="n">not_in</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">break</span>
+
+            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">select_type</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'type'</span><span class="p">))</span>
+            <span class="n">select_type</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+<p><strong><em>What change is how we beahave in the case there is no matching with our selected classes</em></strong>. Since in the case we of no common nodes there are the majority of errors, we decide to “help” the classifier by “cheating” a little bit by selecting as <code class="highlighter-rouge">predicted_tag</code> the type with the highest probability of author of the tweet.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">if</span> <span class="n">not_in</span><span class="p">:</span>
+            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># print("Sorted: " + str(all_types))
+</span>
+        <span class="k">return</span> <span class="n">predicted_tag</span>
+</code></pre></div></div>
+<h2 id="only-one-node">Only one node</h2>
+<h3 id="this-happen-if-the-tweet-has-only-one-entity-with-one-node-lineage-yeah-it-seems-strange-but-could-happen">This happen if the tweet has only one entity with one-node-lineage (yeah, it seems strange but could happen).</h3>
+
+<p>We just take the only node that we have.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">first_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">first_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"types"</span><span class="p">))</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">first_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"score"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">types</span><span class="p">)</span>
+
+        <span class="c1"># we remove "Thing" if present
+</span>        <span class="k">if</span> <span class="s">"Thing"</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+            <span class="n">types</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"Thing"</span><span class="p">)</span>
+
+</code></pre></div></div>
+<p>For all types that are present in this node, we barely do the same of what we have done in multiple node case, with the difference that we do not update the scores (since we are in the case of only one node), so in order to get higher scores among the types we use the probabilities values.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+            <span class="n">present</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">),</span> <span class="bp">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">present</span><span class="p">:</span>
+                <span class="n">couple</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span>
+                <span class="n">to_insert</span> <span class="o">=</span> <span class="p">{</span><span class="s">"type"</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s">"count"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"score"</span><span class="p">:</span> <span class="n">score</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">couple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))}</span>
+                <span class="n">all_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_insert</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">to_insert</span> <span class="o">=</span> <span class="p">{</span><span class="s">"type"</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s">"count"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"score"</span><span class="p">:</span> <span class="n">score</span><span class="p">}</span>
+                <span class="n">all_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_insert</span><span class="p">)</span>
+
+        <span class="n">all_types</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_types</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s">'score'</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">all_types</span><span class="p">)</span>
+        <span class="n">select_type</span> <span class="o">=</span> <span class="n">all_types</span>
+        <span class="n">predicted_tag</span> <span class="o">=</span> <span class="s">""</span>
+</code></pre></div></div>
+<p>Same stuff as in the case of multiple nodes in common…</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">while</span> <span class="n">predicted_tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_names</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">select_type</span><span class="p">:</span>
+                <span class="n">not_in</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">break</span>
+
+            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">select_type</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'type'</span><span class="p">))</span>
+            <span class="n">select_type</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">not_in</span><span class="p">:</span>
+            <span class="c1"># predicted_tag = all_types[0].get('type')
+</span>            <span class="c1"># predicted_tag = "Thing"
+</span>            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">predicted_tag</span>
+</code></pre></div></div>
+<h2 id="only-one-node-1">Only one node</h2>
+<h3 id="maybe-was-not-possible-to-extract-any-entity-from-the-tweet-or-the-entities-have-empty-lineages">Maybe was not possible to extract any entity from the tweet or the entities have empty lineages:(</h3>
+
+<p>If the we are in the case in which the entities have empty lineages, we return the type with highest probabilityfor the author. This really helps the classifier and this choice is due the fact that in the case in which have no nodes in common is difficult to establish which is the correct class and so is the part where the number of error increases.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">else</span><span class="p">:</span>
+        <span class="c1">#predicted_tag = "Thing"
+</span>        <span class="n">predicted_tag</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">predicted_tag</span>
+
+</code></pre></div></div>
+<h3 id="links">Links</h3>
+
+<ul>
+  <li><a href="/pages/one.html"><code class="highlighter-rouge">one_nodes_types(entities,inverted_index,target_names,author,p)</code> </a></li>
+  <li><a href="/pages/multiple.html"><code class="highlighter-rouge">multiple_nodes_types(entities,inverted_index,target_names,author,p)</code> </a></li>
+  <li><a href="/pages/none.html"><code class="highlighter-rouge">no_common_nodes_types(entities,inverted_index,target_names,author,p)</code> </a></li>
+</ul>
+
+    </section>
+  </body>
+</html>

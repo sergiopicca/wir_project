@@ -1,5 +1,38 @@
 ---
 layout: default
 title: Home
+code_title: 
 ---
-<h1>{{ "Hello World!" | downcase }}</h1>
+<div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>This my documentation</strong>. You find all the useful things right on the nice navbar...
+</div>
+<h1>Documentation Progress</h1>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+</div>
+
+<div class="card text-white bg-primary my-3">
+  <div class="card-header">What you will find?</div>
+  <div class="card-body">
+    <h4 class="card-title">Description of the functions</h4>
+    <p class="card-text">There is the code used for the different functions created to classify the tweets, by the usage of the Google Knowledge Graph.</p>
+  </div>
+</div>
+
+<div>
+	<h3>The general idea for classify</h3>
+	<p>
+		The Google Knowledge Graph provides to us different node depending on the query we submit, in particular the subject of each query is an entity, that can be a name of a VIP, a place, whatever! The list of nodes of an entity is called from the paper's authors <strong>lineage</strong>. A tweet may have different of those entities, that may be related together, so the assumption is that related entities could have common nodes.
+
+	</p>
+	<h2>We looking for common nodes!</h2>
+	<h4>...but things are not so good sometimes.</h4> 
+
+	<p>
+		In some cases we are not so lucky, because in our experiment we decided to simplify a little bit stuffs by no considering the context of a tweet, that can be web traffic in that day, events happened in that day, all the things that can influence users. Indeed...
+
+	</p>
+	<h2>...classify tweets with no context is difficult!</h2>
+	<h4>We tried to do our best (finger crossed). </h4> 
+</div>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tweet Classification</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Tweet Classification</h1>
+      <h3>TweetClassification.py</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="here-comes-the-magic">Here comes the magic</h1>
+<p>This is the actual code that makes the classification of tweets possible.</p>
+
+<h2 id="read-tweets">Read Tweets</h2>
+<p>We read the tweets from the different <code class="highlighter-rouge">.csv</code> files, we retrieve the index and store it in a variable, the variable <code class="highlighter-rouge">classes</code> is assigned with the name of a text-file containing the names of all the classes of our dataset.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s">"CSV/Sergio_one_label_data.csv"</span><span class="p">,</span><span class="s">"CSV/Gianluca_one_label_data.csv"</span><span class="p">,</span><span class="s">"CSV/Kai_one_label_data.csv"</span><span class="p">]</span>
+<span class="n">inverted_index_path</span> <span class="o">=</span> <span class="s">"JSON_index/unpretty/inverted_index.json"</span>
+<span class="n">tweet_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="s">"classes.txt"</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">get_probabilities</span><span class="p">()</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inverted_index_path</span><span class="p">,</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">inverted_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span>
+</code></pre></div></div>
+<p>We read the tweets and we put them into a list. Then we have some different variables:</p>
+<ul>
+  <li><code class="highlighter-rouge">stopwords = "Part"</code>. We are removing this entity because the KB presents an error.</li>
+  <li><code class="highlighter-rouge">y_true</code>. A list of the classes of our dataset.</li>
+  <li><code class="highlighter-rouge">y_pred = list()</code>. Class predicted by the usage of the KB</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">dataset_paths</span><span class="p">:</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="n">readSingleLabeledCSV</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">tweet_list</span> <span class="o">=</span> <span class="n">tweet_list</span> <span class="o">+</span> <span class="n">lst</span>
+
+<span class="n">stopwords</span> <span class="o">=</span> <span class="s">"Part"</span>      <span class="c1"># We are removing this entity because the KB presents an error
+</span><span class="n">y_true</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>         <span class="c1"># Tweets classified by ourselves
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>         <span class="c1"># Tweets classified by KB
+</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>               <span class="c1"># We store how many times occurred a "Type"
+</span></code></pre></div></div>
+<p><code class="highlighter-rouge">target_names</code> will contain the names of the classes of the dataset, it is a list and we append to it each string in the <code class="highlighter-rouge">classes.txt</code> file (the filename is in the variable <code class="highlighter-rouge">classes</code>), deleting the end of line characters.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">target_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">less_tweet</span> <span class="o">=</span> <span class="n">tweet_list</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">all_the_classes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_the_classes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">''</span><span class="p">))</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_names</span><span class="p">:</span>
+        <span class="n">target_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">class_adjust</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">''</span><span class="p">)))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">target_names</span><span class="p">)</span>
+</code></pre></div></div>
+<h2 id="browse-tweets">Browse Tweets</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">less_tweet</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">))</span>
+</code></pre></div></div>
+<p>We do preprocessing of the tweet by extracting entities.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">entities</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'full_text'</span><span class="p">))</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'screen_name'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>We remove the “stopwords” from the entities. The “stopwords” variable is only equal to “Part” since
+it is the only entity for the Google Knowledge Graph API returns an error, in particular
+503: The service is currently unavailable. This happens every time we try to make a call to the API
+by using “Part” as query, also in Google developer console.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="n">stopwords</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+        <span class="n">entities</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">stopwords</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>
+    <span class="n">common_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Author: "</span> <span class="o">+</span> <span class="n">author</span> <span class="o">+</span> <span class="s">" | "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">entities</span><span class="p">:</span>
+        <span class="c1">#print(entities)
+</span>        <span class="n">y_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">)))</span>
+
+</code></pre></div></div>
+<p>We consider the different combination of entities extracted from the tweet and then we search them in to the index. Once we have found these entities we start looking both “posting lists” searching common nodes. The algorithm is the one saw for merging two posting lists, but in this case we use a list called <code class="highlighter-rouge">common_nodes</code> that will store the common nodes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="c1"># this for-loop allow us to scan the "posting lists" aka the lineages of the inverted index we built.
+</span>        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">lst1</span> <span class="o">=</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">lst2</span> <span class="o">=</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">lst1</span> <span class="ow">and</span> <span class="n">lst2</span><span class="p">:</span>
+                <span class="k">while</span> <span class="n">k</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst2</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">lst1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span> <span class="o">==</span> <span class="n">lst2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">):</span>
+
+                        <span class="c1"># if we find the common nodes between entities.For each common node, we
+</span>                        <span class="c1"># will save the "id", the "types" and we will sum the "score" of the nodes,
+</span>                        <span class="c1"># by sum the ones of both lineages.
+</span>
+                        <span class="n">common_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">(</span><span class="n">lst1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">),</span>
+                             <span class="n">lst1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'types'</span><span class="p">),</span>
+                             <span class="n">lst1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'score'</span><span class="p">)</span> <span class="o">+</span> <span class="n">lst2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'score'</span><span class="p">)))</span>
+                        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">lst1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">lst2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">):</span>
+                            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+</code></pre></div></div>
+<p>Depending on the size of the <code class="highlighter-rouge">common_nodes</code> list, we may have different cases, according to the length of common nodes. First of all:</p>
+<ul>
+  <li><code class="highlighter-rouge">common_nodes</code> is <strong><em>not empty</em></strong>:
+    <ul>
+      <li>Only one node is present. <a href="/pages/one.html">See the <code class="highlighter-rouge">one_nodes_types</code> </a>
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">common_nodes</span><span class="p">:</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">COMMON NODES!</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+      <span class="n">common_nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">common_nodes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">common_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+          <span class="k">print</span><span class="p">(</span><span class="s">"One node in common..."</span><span class="p">)</span>
+          <span class="n">predicted_tag</span> <span class="o">=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">one_node_types</span><span class="p">(</span><span class="n">common_nodes</span><span class="p">,</span><span class="n">target_names</span><span class="p">,</span><span class="n">author</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+          <span class="k">print</span><span class="p">(</span><span class="s">"Predicted tag: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span> <span class="o">+</span> <span class="s">" | True tag: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">))))</span>
+          <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span>
+          <span class="k">if</span> <span class="n">predicted_tag</span> <span class="o">!=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">)):</span>
+              <span class="n">one_node_error</span><span class="o">+=</span><span class="mi">1</span>
+</code></pre></div>        </div>
+      </li>
+      <li>More node is present, in this case the lineages of the entities intersect in multiple nodes. <a href="/pages/multiple.html">See the <code class="highlighter-rouge">multiple_nodes_types</code> </a>
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">#if we have many nodes...
+</span>      <span class="k">else</span><span class="p">:</span>
+          <span class="k">print</span><span class="p">(</span><span class="s">"More than one node in common..."</span><span class="p">)</span>
+          <span class="n">predicted_tag</span> <span class="o">=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">multiple_node_types</span><span class="p">(</span><span class="n">common_nodes</span><span class="p">,</span><span class="n">target_names</span><span class="p">,</span><span class="n">author</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+          <span class="k">print</span><span class="p">(</span><span class="s">"Predicted tag: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span> <span class="o">+</span> <span class="s">" | True tag: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">))))</span>
+          <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span>
+          <span class="k">if</span> <span class="n">predicted_tag</span> <span class="o">!=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">)):</span>
+              <span class="n">more_node_error</span><span class="o">+=</span><span class="mi">1</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">common_nodes</code> is <strong><em>empty</em></strong>:
+    <ul>
+      <li>No common nodes between lineages. <a href="/pages/none.html">See the <code class="highlighter-rouge">no_common_nodes_types</code> </a></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"No common nodes."</span><span class="p">)</span>
+            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">no_common_nodes_types</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">inverted_index</span><span class="p">,</span> <span class="n">target_names</span><span class="p">,</span><span class="n">author</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Predicted tag: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span> <span class="o">+</span> <span class="s">"| True tag: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">))))</span>
+            <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">predicted_tag</span> <span class="o">!=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">)):</span>
+                <span class="n">no_node_error</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">no_node</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">),</span><span class="n">predicted_tag</span><span class="p">,</span><span class="n">class_adjust</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">))))</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+</code></pre></div></div>
+
+    </section>
+  </body>
+</html>

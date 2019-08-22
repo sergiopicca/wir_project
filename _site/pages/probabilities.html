@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Probabilities</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Probabilities</h1>
+      <h3>AuthorAndClasses.py</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <p>This function computes the probabilities by reading the tweets and checking how many tweets were written by a particular
+author, looking for the types and their occurrencies, once these values are computed we store the probabilities p, in a 
+dictionary indexed by the author’s name, where p is:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                        
+                    <span class="c1">#tweets_with_that_type 
+</span><span class="k">for</span> <span class="n">author</span> <span class="n">a</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span>  <span class="n">________________________</span>
+
+                        <span class="c1">#tweets_of_a
+</span></code></pre></div></div>
+
+<h1 id="get-probabilities">Get probabilities</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_probabilities</span><span class="p">():</span>
+    <span class="n">dataset_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s">"CSV/Sergio_one_label_data.csv"</span><span class="p">,</span><span class="s">"CSV/Gianluca_one_label_data.csv"</span><span class="p">,</span><span class="s">"CSV/Kai_one_label_data.csv"</span><span class="p">]</span>
+    <span class="n">tweet_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">dataset_paths</span><span class="p">:</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="n">readSingleLabeledCSV</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">tweet_list</span> <span class="o">=</span> <span class="n">tweet_list</span> <span class="o">+</span> <span class="n">lst</span>
+
+    <span class="n">authors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">probabilities</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tweet_list</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'screen_name'</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'single_tag'</span><span class="p">))</span>
+        <span class="n">there</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">authors</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s">"author"</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">),</span> <span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+<p>first each author is stored in a list of dictionary called “authors”
+in order to count how many tweet were written by a particular author a,
+with the indication of the class and its occurencies.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">if</span> <span class="ow">not</span> <span class="n">there</span><span class="p">:</span>
+            <span class="n">classes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">to_insert</span> <span class="o">=</span> <span class="p">{</span><span class="s">"author"</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s">"classes"</span><span class="p">:</span> <span class="n">classes</span><span class="p">,</span>  <span class="s">"count"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+            <span class="n">authors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_insert</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">to_change</span> <span class="o">=</span> <span class="n">authors</span><span class="p">[</span><span class="n">authors</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">there</span><span class="p">)]</span>
+            <span class="n">to_change</span><span class="p">[</span><span class="s">"count"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">to_update</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">to_change</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"classes"</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">),</span><span class="bp">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">to_update</span><span class="p">:</span>
+               <span class="n">to_change</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"classes"</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">c</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">elem</span> <span class="o">=</span> <span class="n">to_change</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"classes"</span><span class="p">)[</span><span class="n">to_change</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"classes"</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">to_update</span><span class="p">)]</span>
+                <span class="n">to_change</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"classes"</span><span class="p">)</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+                <span class="n">to_add</span> <span class="o">=</span> <span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">elem</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">to_change</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"classes"</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_add</span><span class="p">)</span>
+</code></pre></div></div>
+<p>“authors” list is sorted by author names</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">authors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">authors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s">"author"</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+<p>here we create the dictionary indexed by the author’s name</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">authors</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"author"</span><span class="p">)</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"classes"</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"count"</span><span class="p">)</span>
+        <span class="n">sequence</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">d</span>
+            <span class="n">sequence</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">prob</span><span class="p">))</span>
+
+        <span class="n">probabilities</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">sequence</span>
+
+    <span class="k">return</span> <span class="n">probabilities</span>
+</code></pre></div></div>
+
+
+    </section>
+  </body>
+</html>

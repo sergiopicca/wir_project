@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Classification Functions</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Classification Functions</h1>
+      <h3>Classification_functions.py - one_node_types</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="the-entities-have-only-one-node-in-common">The entities have only one node in common</h1>
+
+<p>If the list containing the common nodes has lenght equal to 1, we have to extract the only node in, it will be our representative node.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">representative_node</span> <span class="o">=</span> <span class="n">common_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">representative_node</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">not_in</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">types</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Then we extract the types of tweets written by the current author, in particular the types are not strings, since they are extracted from <code class="highlighter-rouge">p</code>, they are tuples <code class="highlighter-rouge">(type t, probability_of_t)</code>. We sort them in decreasing order. If the type with the highest probability is one among the types contained in the representative node we return it.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">author_types</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author</span><span class="p">)</span>
+    <span class="n">max_type</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">author_types</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">possible_type</span> <span class="o">=</span> <span class="n">max_type</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">possible_type</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"The possible type is "</span> <span class="o">+</span> <span class="n">possible_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">possible_type</span>
+</code></pre></div></div>
+
+<p>We can have one or more types in the list of this single node.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</code></pre></div></div>
+<p>If we have more than one type we can safelly remove the “Thing” type that it is not so informative.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">types</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"Thing"</span><span class="p">)</span>
+        <span class="n">select_type</span> <span class="o">=</span> <span class="n">types</span>
+        <span class="n">predicted_tag</span> <span class="o">=</span> <span class="s">""</span>
+</code></pre></div></div>
+<p>While the predicted tag is not one of the classes of our data we keep searching through the types of the node. We make this check since in the <strong><em>Google Knowledge Graph there a huge variety of types</em></strong>, so we needed to do a simplification, otherwise the number of classes would grow very fast!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">while</span> <span class="n">predicted_tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_names</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">predicted_tag</span><span class="p">)</span>
+
+            <span class="c1"># if the list of types we exit from the while-loop
+</span>            <span class="k">if</span> <span class="ow">not</span> <span class="n">select_type</span><span class="p">:</span>
+                <span class="n">not_in</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">break</span>
+            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="n">class_adjust</span><span class="p">(</span><span class="n">select_type</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">select_type</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+<p>If we don’t have a match with our set of classes we decide for the most general class “Thing”.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">if</span> <span class="n">not_in</span><span class="p">:</span>
+            <span class="c1"># in the case we have scanned all types we select the "Thing" as class for the tweet
+</span>            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="s">"Thing"</span>
+
+        <span class="k">return</span> <span class="n">predicted_tag</span>
+
+</code></pre></div></div>
+<p>If we have only one type, we have to select it in the case is acceptable, otherwise “Thing” again.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">target_names</span><span class="p">:</span>
+            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># otherwise we have to choose for "Thing", as in the case above.
+</span>        <span class="k">else</span><span class="p">:</span>
+            <span class="n">predicted_tag</span> <span class="o">=</span> <span class="s">"Thing"</span>
+
+    <span class="k">return</span> <span class="n">predicted_tag</span>
+</code></pre></div></div>
+
+<h3 id="links">Links</h3>
+
+<ul>
+  <li><a href="/pages/one.html"><code class="highlighter-rouge">one_nodes_types(entities,inverted_index,target_names,author,p)</code> </a></li>
+  <li><a href="/pages/multiple.html"><code class="highlighter-rouge">multiple_nodes_types(entities,inverted_index,target_names,author,p)</code> </a></li>
+  <li><a href="/pages/none.html"><code class="highlighter-rouge">no_common_nodes_types(entities,inverted_index,target_names,author,p)</code> </a></li>
+</ul>
+
+    </section>
+  </body>
+</html>
