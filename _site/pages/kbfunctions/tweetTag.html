@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>tweetTag</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <!--Theme-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/kb">Discovering the KB</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/inverted">Creating the index</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/ground">Ground Truth</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">tweetTag</h1>
+      <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
+      <h3>KBfunctions.py - tweetTag</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the link to the codes with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="common-or-not-common">Common or not common?</h1>
+<h2 id="this-functions-returns-the-possible-type-for-a-particular-tweet-in-the-case-there-are-common-nodes-or-not">This functions returns the possible type for a particular tweet in the case there are common nodes or not.</h2>
+<p>The function takes as input the results that are the list (possibly empty) of common nodes retured from the <code class="highlighter-rouge">commonNodes</code> function and the list of the nodes for each entity in that tweet.</p>
+
+<p>This function returns the set of tags that better describes the tweet, considering the two cases:</p>
+
+<ol>
+  <li>There <strong><em>are common nodes</em></strong> of the lineages of the mentions.</li>
+  <li>There are <strong><em>not common nodes</em></strong>.</li>
+</ol>
+
+<p>In the first case we consider all the types of the common nodes once and we return them, avoiding the “Thing”-type.
+In the second case we just pick the first node of the lineage, with higher score and we return the types of that node.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">tweetTag</span><span class="p">(</span><span class="n">results</span><span class="p">,</span><span class="n">listOfEntites</span><span class="p">):</span>
+<span class="c1">#I have two possible cases:
+</span>    <span class="c1">#result is not empty
+</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'types'</span><span class="p">):</span>
+                <span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+
+        <span class="n">tags</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"Thing"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tags</span>
+
+    <span class="c1">#result is empty so there are no nodes in common
+</span>    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">listOfEntites</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'types'</span><span class="p">):</span>
+                    <span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+
+        <span class="n">tags</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"Thing"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tags</span>
+
+</code></pre></div></div>
+
+    </section>
+    <footer class="m-5">
+      <a href="/pages/kb" class="btn btn-outline-primary" role="button" aria-pressed="true">Back to the function mainpage</a>
+    </footer>
+  </body>
+</html>

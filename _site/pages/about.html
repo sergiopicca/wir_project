@@ -10,7 +10,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!--Theme-->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
     <style type="text/css">
       .language-python {
         background-color: #eceff1;
@@ -41,18 +43,108 @@
   		<li class="nav-item active">
     	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
   
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/kb">Discovering the KB</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/inverted">Creating the index</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/ground">Ground Truth</a>
+  
 </nav>
   	<div class="jumbotron">
   	  <h1 class="display-3">Classification Functions</h1>
+      <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
       <h3>Classification_functions.py</h3>
   	  <p class="lead">From the Web Information Retrieval's project</p>
   	  <hr class="my-4">
-  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	  <p>In the navbar you can find all the link to the codes with their explanation.</p>
   	</div>
     <section class="m-5">
       <h1 id="core-functions">Core functions</h1>
 
-<p>In the following there are three functions, used for the classification of tweets in “TweetClassification.py” and one used to adjust class names, since at the moment at which the code was developed the final version of the data-set with different tags collapsed together was not ready.</p>
+<p>In the following there are three functions, two used for the classification of tweets in “TweetClassification.py” and one used to adjust class names, since at the moment at which the code was developed the final version of the data-set with different tags collapsed together was not ready.</p>
+
+<h2 id="adjust-class-names">Adjust class names</h2>
+<p>The <code class="highlighter-rouge">class_adjust</code> function takes as parameter the tag of the tweet and it applies the following rules:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tag</th>
+      <th>Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SportsOrganization,SportsTeam</td>
+      <td>Sports</td>
+    </tr>
+    <tr>
+      <td>MusicAlbum,MusicGroup,MusicRecording</td>
+      <td>Music</td>
+    </tr>
+    <tr>
+      <td>Book,BookSeries</td>
+      <td>Book</td>
+    </tr>
+    <tr>
+      <td>EducationalOrganization,Organization,GovernmentOrganization</td>
+      <td>Organization</td>
+    </tr>
+    <tr>
+      <td>Movie,MovieSeries</td>
+      <td>Movie</td>
+    </tr>
+    <tr>
+      <td>VideoGame,VideoGameSeries</td>
+      <td>VideoGame</td>
+    </tr>
+    <tr>
+      <td>Other</td>
+      <td>Leave as it is</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In this way we reduce the amount of classes. The function is very simple, it has different lists (one for each “collapsed-class”) and we do the check: if the input <code class="highlighter-rouge">tag</code> is in one of the list, we assign the correct class.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">class_adjust</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="n">sports</span> <span class="o">=</span> <span class="p">[</span><span class="s">"SportsOrganization"</span><span class="p">,</span><span class="s">"SportsTeam"</span><span class="p">]</span>
+    <span class="n">music</span> <span class="o">=</span> <span class="p">[</span><span class="s">"MusicAlbum"</span><span class="p">,</span><span class="s">"MusicGroup"</span><span class="p">,</span><span class="s">"MusicRecording"</span><span class="p">]</span>
+    <span class="n">organization</span> <span class="o">=</span> <span class="p">[</span><span class="s">"EducationalOrganization"</span><span class="p">,</span><span class="s">"Organization"</span><span class="p">,</span><span class="s">"GovernmentOrganization"</span><span class="p">]</span>
+    <span class="n">book</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Book"</span><span class="p">,</span><span class="s">"BookSeries"</span><span class="p">]</span>
+    <span class="n">movie</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Movie"</span><span class="p">,</span><span class="s">"MovieSeries"</span><span class="p">]</span>
+    <span class="n">video</span> <span class="o">=</span> <span class="p">[</span><span class="s">"VideoGame"</span><span class="p">,</span><span class="s">"VideoGameSeries"</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">sports</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="s">"Sports"</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">music</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="s">"Music"</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">organization</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="s">"Organization"</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">book</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="s">"Book"</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">movie</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="s">"Movie"</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">video</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="s">"VideoGame"</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+  
+    <span class="k">return</span> <span class="n">tag</span>
+</code></pre></div></div>
 
 <h2 id="classification-functions">Classification functions</h2>
 <p>In doing the classification, after the pre-processing, we look for common nodes in the lineages of the mentions extracted from the tweet. The difference among the classification functions depends on the number of nodes that different lineages (list of node of one entity)
@@ -83,7 +175,7 @@ nodes are taken by the knowledge base used (Google Knowledge Graph), then they a
     
     <span class="p">}</span>
 </code></pre></div></div>
-<h3 id="links">Links</h3>
+<h3 id="each-classification-function-has-one-single">Each classification function has one single</h3>
 
 <ul>
   <li><a href="/pages/one.html"><code class="highlighter-rouge">one_nodes_types(entities,inverted_index,target_names,author,p)</code> </a></li>

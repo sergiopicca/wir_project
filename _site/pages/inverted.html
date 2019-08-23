@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Creating the inverted index</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <!--Theme-->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/kb">Discovering the KB</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/inverted">Creating the index</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/ground">Ground Truth</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Creating the inverted index</h1>
+      <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
+      <h3>InvertedIndex.py</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the link to the codes with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="we-want-an-inverted-index">We want an inverted index</h1>
+
+<h2 id="using-everytime-the-api-is-not-good">Using everytime the API is not good</h2>
+
+<p>If we try to classify the tweets by asking everytime to the API, we will have many errors, because it does not handle frequent calls (obviously we did not pay to use it, we used the <strong><em>free version</em></strong>). We decided to store the entities of each tweet of our collection in an inverted index, where we have the couple <code class="highlighter-rouge">(entity, list of nodes)</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s">"CSV/Sergio_one_label_data.csv"</span><span class="p">,</span><span class="s">"CSV/Gianluca_one_label_data.csv"</span><span class="p">,</span><span class="s">"CSV/Kai_one_label_data.csv"</span><span class="p">]</span>
+<span class="n">tweet_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">set_of_entities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="n">pseudo_inverted_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+</code></pre></div></div>
+<h1 id="read-the-tweets">Read the tweets</h1>
+<p>We first read the tweets, the ones previously labeled with multiple tags, then we append them to the <code class="highlighter-rouge">tweet_list</code>. Then the second thing to do is to extract the entities for each tweet to store them in a file called the <code class="highlighter-rouge">entity_file.txt</code>. <strong><em>We need to store them in order to be more efficient, write the index one entity at the time will be too slow.</em></strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">dataset_paths</span><span class="p">:</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="n">readSingleLabeledCSV</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">tweet_list</span> <span class="o">=</span> <span class="n">tweet_list</span> <span class="o">+</span> <span class="n">lst</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s">"TXT/entity_file.txt"</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tweet_list</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'full_text'</span><span class="p">)</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">entity_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"TXT/entity_file.txt"</span><span class="p">,</span> <span class="s">'a'</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="n">entity_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="n">entity_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+<h1 id="the-error-variable">The “error” variable</h1>
+<h3 id="in-this-code-we-do-many-call-to-gkg-api-so-sometimes-an-error-will-raise-503-service-unavailable-error">In this code we do many call to GKG API, so sometimes an error will raise: 503 Service Unavailable error.</h3>
+
+<p>Many call to the API will raise the 503 Service Unavailable error, so the code will stop and we should run it again manually. In order to avoid this <strong><em>boring thing</em></strong> we handle the error by using a <code class="highlighter-rouge">try: ... except urllib.error.HTTPError as err:</code> statement later in the code triggered in the case of 503 error. We use a variable called <code class="highlighter-rouge">error</code> setted to <code class="highlighter-rouge">True</code>, then in the loop cycle is immediately switched to <code class="highlighter-rouge">False</code>, it will return <code class="highlighter-rouge">True</code> only in the case we catch and error.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#This variable is for error handling, in the case the API does not work (503 error: service not avaible)
+</span><span class="n">error</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">while</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"A new iteration begin (there was an error)...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1">#this is the file in which all the entities are stored
+</span>    <span class="c1">#the usage of a file is requested to speed up the process
+</span>    <span class="n">entity_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"TXT/entity_file.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Reading entities...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">all_entities</span> <span class="o">=</span> <span class="n">entity_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="c1">#words for which the search in GKG does not work
+</span>    <span class="n">stopwords</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Part'</span><span class="p">,</span><span class="s">'Man'</span><span class="p">,</span><span class="s">'Good'</span><span class="p">,</span><span class="s">'Back'</span><span class="p">,</span><span class="s">'YouTube'</span><span class="p">,</span><span class="s">'LIVE'</span><span class="p">,</span><span class="s">'House'</span><span class="p">,</span><span class="s">'People'</span><span class="p">,</span><span class="s">'Album'</span><span class="p">,</span><span class="s">'Way'</span><span class="p">,</span><span class="s">'Love'</span><span class="p">,</span><span class="s">'How'</span><span class="p">,</span><span class="s">'Life'</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">all_entities</span><span class="p">:</span>
+        <span class="n">formatted_line</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="s">''</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">formatted_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">:</span>
+            <span class="n">set_of_entities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">formatted_line</span><span class="p">)</span>
+    <span class="n">entity_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+<h3 id="in-the-above-code-there-is-the-stopwords-list-that-contains-entities-that-api-couldnt-get-along-with">In the above code there is the stopwords list, that contains entities that API couldn’t get along with.</h3>
+
+<p>The strange thing is that if we use the GKG from the Google site with stopwords entities, it works! So we added manually the nodes associated to each of these entity manually…</p>
+
+<h3 id="suppose-that-we-have-written-at-most-all-the-entities-but-at-the-end-there-is-an-error-what-we-do">Suppose that we have written at most all the entities but at the end there is an error. What we do?!</h3>
+
+<p>According to what we have said there is no escape, we have to start all the process again. This is not true, since we used an <code class="highlighter-rouge">already_written</code> list, that contains the entities that have been already written in the index, so we do not need to start everything from scratch.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">already_written</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="c1">#the error variable is putted to false, hopefully it will not change
+</span>    <span class="n">error</span> <span class="o">=</span> <span class="bp">False</span>
+</code></pre></div></div>
+<p>If the file is present in the directory called <code class="highlighter-rouge">JSON_index</code> we retrieve the lines written.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s">'JSON_index/new_inverted_index.json'</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'JSON_index/new_inverted_index.json'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1">#this file will contain all the entities that are already written in the inverted index
+</span>        <span class="n">formattedFile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"JSON_index/already_written.json"</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span>
+
+        <span class="n">linesNumber</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div></div>
+<p>We remove the last line because <strong><em>if an error occur the writing of the index simply stop and so the file could be ill-formed.</em></strong> Then we re-write the file well formed.</p>
+
+<h3 id="is-important-to-notice-that-the-index-file-is-not-pretty-printed-otherwise-we-cannot-retrieve-each-line-as-list-of-nodes-indeed-at-the-time-the-file-is-written-an-entity-with-its-list-of-nodes-represents-a-line">Is important to notice that the index file is not “pretty printed”, otherwise we cannot retrieve each line as list of nodes. Indeed at the time the file is written an entity with its list of nodes represents a line.</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">print</span><span class="p">(</span><span class="s">"Formatting the files...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="c1">#the last line is stripped out, because it may cause problem in reading the file
+</span>        <span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">linesNumber</span> <span class="o">=</span> <span class="n">linesNumber</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">linesNumber</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">formattedFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">formattedFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="n">formattedFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">}</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="n">formattedFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1">#the 'already_written.json' once has been written is open to store in a set the entities already written
+</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'JSON_index/already_written.json'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">already_written</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+<h3 id="we-stress-the-concept-a-little-bit">We stress the concept a little bit</h3>
+<p>The index is re-written because it has to be well formed to add other entities. Let’s suppose that the last line is: <code class="highlighter-rouge">"entity_name": [{"id":</code> in that case the row is incomplete, so it has to be removed so the file is overwritten.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'JSON_index/new_inverted_index.json'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"The entities are: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set_of_entities</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"The ALREADY WRITTEN entities are: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">already_written</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Start creating the inverted index...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<h3 id="we-remove-the-entities-already-written">we remove the entities already written</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">set_of_entities</span> <span class="o">=</span> <span class="n">set_of_entities</span> <span class="o">-</span> <span class="n">already_written</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">set_of_entities</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"You still have to add: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set_of_entities</span><span class="p">))</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<h1 id="graffa-variable">Graffa variable</h1>
+<h3 id="we-deal-gain-with-the-problem-of-ill-formness-of-the-index-file">We deal gain with the problem of ill-formness of the index file</h3>
+
+<p>Is the <code class="highlighter-rouge">os.path.isfile('JSON_index/new_inverted_index.json')</code> return <code class="highlighter-rouge">True</code>, so it recognize the index as a <code class="highlighter-rouge">.json</code> file, the end parenthesis is present, so in order to add another entity we have to add it, because of the rules of a <code class="highlighter-rouge">.json</code> file.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">graffa</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s">'JSON_index/new_inverted_index.json'</span><span class="p">):</span>
+        <span class="n">graffa</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'JSON_index/new_inverted_index.json'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">graffa</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"{</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="n">whichOne</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">set_of_entities</span><span class="p">:</span>
+            <span class="n">whichOne</span> <span class="o">=</span> <span class="n">whichOne</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">whichOne</span><span class="p">)</span> <span class="o">+</span> <span class="s">" - "</span> <span class="o">+</span> <span class="s">"Entity: "</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span>
+            <span class="c1">#time.sleep(5)
+</span>            <span class="k">try</span><span class="p">:</span>
+                <span class="n">nodes</span> <span class="o">=</span> <span class="n">createListOfNodes</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">503</span><span class="p">:</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"..."</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"..."</span><span class="p">)</span>
+</code></pre></div></div>
+<h3 id="we-sort-the-node-since-we-want-to-build-an-inverted-index-and-by-doing-so-the-posting-lists-should-be-sorted">We sort the node, since we want to build an inverted index and by doing so the posting lists should be sorted.</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            <span class="c1">#the entries in the posting list must be sorted!
+</span>            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s">'id'</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">whichOne</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">set_of_entities</span><span class="p">):</span>
+                <span class="c1">#we add the entity and its nodes to the json file, if it is not the last a comma is required
+</span>                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="n">e</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">: "</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">+</span> <span class="s">",</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1">#otherwise the comma is not needed
+</span>                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="n">e</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">: "</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+            <span class="k">print</span><span class="p">(</span><span class="s">"Added to the index.</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+            <span class="c1">#time.sleep(10)
+</span></code></pre></div></div>
+<p>If no more error occurs, we add the last parenthesis.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"}"</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+    </section>
+  </body>
+</html>

@@ -5,7 +5,60 @@ code_title: Classification_functions.py
 ---
 # Core functions
 
-In the following there are three functions, used for the classification of tweets in "TweetClassification.py" and one used to adjust class names, since at the moment at which the code was developed the final version of the data-set with different tags collapsed together was not ready.
+In the following there are three functions, two used for the classification of tweets in "TweetClassification.py" and one used to adjust class names, since at the moment at which the code was developed the final version of the data-set with different tags collapsed together was not ready.
+
+## Adjust class names
+The ```class_adjust``` function takes as parameter the tag of the tweet and it applies the following rules:
+
+| Tag                                                         | Class          |
+|-------------------------------------------------------------|----------------|
+| SportsOrganization,SportsTeam                               | Sports         |
+| MusicAlbum,MusicGroup,MusicRecording                        | Music          |
+| Book,BookSeries                                             | Book           |
+| EducationalOrganization,Organization,GovernmentOrganization | Organization   |
+| Movie,MovieSeries                                           | Movie          |
+| VideoGame,VideoGameSeries                                   | VideoGame      |
+| Other                                                       | Leave as it is |
+
+
+In this way we reduce the amount of classes. The function is very simple, it has different lists (one for each "collapsed-class") and we do the check: if the input ```tag``` is in one of the list, we assign the correct class.
+
+```python
+def class_adjust(tag):
+    sports = ["SportsOrganization","SportsTeam"]
+    music = ["MusicAlbum","MusicGroup","MusicRecording"]
+    organization = ["EducationalOrganization","Organization","GovernmentOrganization"]
+    book = ["Book","BookSeries"]
+    movie = ["Movie","MovieSeries"]
+    video = ["VideoGame","VideoGameSeries"]
+
+    if tag in sports:
+        c = "Sports"
+        return c
+
+    if tag in music:
+        c = "Music"
+        return c
+
+    if tag in organization:
+        c = "Organization"
+        return c
+
+    if tag in book:
+        c = "Book"
+        return c
+
+    if tag in movie:
+        c = "Movie"
+        return c
+
+    if tag in video:
+        c = "VideoGame"
+        return c
+
+  
+    return tag
+```
 
 ## Classification functions
 In doing the classification, after the pre-processing, we look for common nodes in the lineages of the mentions extracted from the tweet. The difference among the classification functions depends on the number of nodes that different lineages (list of node of one entity)
@@ -33,9 +86,9 @@ All the three function take as input the following parameters:
     
     }
 ```
-### Links
+### Each classification function has one single 
 
-- [```one_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/one.html)
-- [```multiple_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/multiple.html)
-- [```no_common_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/none.html)
+- [```one_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/one.html)
+- [```multiple_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/multiple.html)
+- [```no_common_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/none.html)
     

@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>commonNodes</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <!--Theme-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/kb">Discovering the KB</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/inverted">Creating the index</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/ground">Ground Truth</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">commonNodes</h1>
+      <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
+      <h3>KBfunctions.py - common</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the link to the codes with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="where-the-main-intuition-takes-place">Where the main intuition takes place</h1>
+<h2 id="actually-this-function-was-used-to-just-try-the-intuition-explained-in-the-homepage-in-some-experiment">Actually this function was used to just try the intuition explained in the <a href="/index.html">Homepage</a> in some experiment</h2>
+
+<p>This function returns a list containing common nodes of two different lineages l1 and l2, represented by two lists; then the new score is computed and it is obtained by adding the two score, s1 + s2. The 
+formula on the paper does not apply since the scores are not percentage.</p>
+
+<p>The function takes as parameter:</p>
+<ul>
+  <li>two <code class="highlighter-rouge">sets</code>, containing the id of the nodes of two lineages. The choice was due the fact that we wanted a fast way to compute intersection.</li>
+  <li>two <code class="highlighter-rouge">lists</code>, containg the nodes of the same two lineages with all information (types, scores, …).</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">commonNodes</span><span class="p">(</span><span class="n">set_one</span><span class="p">,</span> <span class="n">set_two</span><span class="p">,</span> <span class="n">list_one</span><span class="p">,</span> <span class="n">list_two</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">list_one</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span> <span class="ow">in</span> <span class="n">set_one</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">set_two</span><span class="p">):</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'name'</span><span class="p">)</span>
+            <span class="n">types</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'types'</span><span class="p">)</span>
+            <span class="n">s1</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'score'</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list_two</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span> <span class="ow">in</span> <span class="n">set_one</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">set_two</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span> <span class="o">==</span> <span class="nb">id</span><span class="p">:</span>
+                    <span class="n">s2</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'score'</span><span class="p">)</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span>
+                    <span class="n">toInsert</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s">'id'</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span>
+                        <span class="s">'name'</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                        <span class="s">'types'</span><span class="p">:</span> <span class="n">types</span><span class="p">,</span>
+                        <span class="s">'score'</span><span class="p">:</span> <span class="n">score</span>
+                    <span class="p">}</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toInsert</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+</code></pre></div></div>
+<p>This function returns a list containing common nodes of two different lineages l1 and l2, represented by two lists; then the new score is computed and it is obtained by adding the two score, s1 + s2. The 
+formula on the paper does not apply since the scores are not percentage.</p>
+
+    </section>
+    <footer class="m-5">
+      <a href="/pages/kb" class="btn btn-outline-primary" role="button" aria-pressed="true">Back to the function mainpage</a>
+    </footer>
+  </body>
+</html>

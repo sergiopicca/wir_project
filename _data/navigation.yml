@@ -1,5 +1,5 @@
 - name: Home
-  link: /wir_project/
+  link: /
 
 - name: Classification functions
   link: /wir_project/pages/about.html
@@ -9,3 +9,12 @@
 
 - name: Tweet Classification
   link: /wir_project/pages/tweet_classification
+
+- name: Discovering the KB
+  link: /wir_project/pages/kb
+
+- name: Creating the index
+  link: /wir_project/pages/inverted
+
+- name: Ground Truth
+  link: /wir_project/pages/ground

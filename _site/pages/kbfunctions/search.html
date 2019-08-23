@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Search function</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <!--Theme-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/kb">Discovering the KB</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/inverted">Creating the index</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/ground">Ground Truth</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Search function</h1>
+      <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
+      <h3>KBfunctions.py - search</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the link to the codes with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="where-all-started">Where all started…</h1>
+<h2 id="this-is-a-very-simple-function-that-submit-a-query-to-the-our-kb">This is a very simple function that submit a query to the our KB</h2>
+<p>This is the function that contains some of the code provided from the original page of the <a href="https://developers.google.com/knowledge-graph/">Google Knowledge Graph API</a>. There is the <code class="highlighter-rouge">api_key</code> variable that contains the key to access the API.</p>
+
+<p>The <code class="highlighter-rouge">query</code> is a variable containing the actual keyword that we want to search.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+    <span class="n">api_key</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="n">service_url</span> <span class="o">=</span> <span class="s">'https://kgsearch.googleapis.com/v1/entities:search'</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'query'</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span>
+        <span class="s">'limit'</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+        <span class="s">'indent'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">'key'</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">service_url</span> <span class="o">+</span> <span class="s">'?'</span> <span class="o">+</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">response</span>
+</code></pre></div></div>
+<p>The function return a <code class="highlighter-rouge">.json</code> file, that contains all the nodes retrieved from the GKG.</p>
+
+    </section>
+    <footer class="m-5">
+      <a href="/pages/kb" class="btn btn-outline-primary" role="button" aria-pressed="true">Back to the function mainpage</a>
+    </footer>
+  </body>
+</html>

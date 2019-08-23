@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Some other functions</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <!--Theme-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/kb">Discovering the KB</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/inverted">Creating the index</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/ground">Ground Truth</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Some other functions</h1>
+      <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
+      <h3>KBFunctions.py</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="many-functions">Many functions!</h1>
+<h2 id="in-this-python-file-there-are-many-functions-used-during-the-development-of-the-project">In this python file there are many functions used during the development of the project</h2>
+
+<p>Among the functions written in the file, I will explain in details only the one used in the final application, going through the code. For the others I will put only a description of what that function does, avoding the functions that just print a list of nodes or write a <code class="highlighter-rouge">.csv</code> file, there are different of those, depending of which kind of version of the dataset we have to read: the unlabeled one, the one with more than one tag or the one with just one class.</p>
+
+    </section>
+    <div class="m-5">
+      <div class="row">
+
+  <div class="col-sm-6">
+    <div class="m-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Function: search</h5>
+        <p class="card-text">This function search for a particular node in the GKG.</p>
+        
+        <a href="/pages/kbfunctions/search" class="btn btn-primary">
+          See documentation
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-6">
+    <div class="m-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Function: createListOfNodes</h5>
+        <p class="card-text">This function put the nodes in a list.</p>
+        
+        <a href="/pages/kbfunctions/createlist" class="btn btn-primary">
+          See documentation
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-6">
+    <div class="m-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Function: takeTheFirstNode</h5>
+        <p class="card-text">This function returns as output the first node of the GKG for a certain query.</p>
+        
+        <a href="/n" class="btn btn-primary disabled">
+          No documentation link:(
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-6">
+    <div class="m-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Function: createIDSet</h5>
+        <p class="card-text">This function creates the set of nodeID, since with sets it is easier to see containment of one node into another lineage.</p>
+        
+        <a href="/n" class="btn btn-primary disabled">
+          No documentation link:(
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-6">
+    <div class="m-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Function: tweetTag</h5>
+        <p class="card-text">This function returns the set of tags that better describes the tweet.</p>
+        
+        <a href="/pages/kbfunctions/tweetTag" class="btn btn-primary">
+          See documentation
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-6">
+    <div class="m-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Function: getTypes</h5>
+        <p class="card-text">This function takes as input a list of entities and returns the list of their own types.</p>
+        
+        <a href="/n" class="btn btn-primary disabled">
+          No documentation link:(
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-6">
+    <div class="m-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Function: commonNodes</h5>
+        <p class="card-text">This function returns a list containing common nodes of two different lineages l1 and l2, represented by two lists; then the new score is computed and it is obtained by adding the two score, s1 + s2. The formula on the paper does not apply since the scores are not percentage.</p>
+        
+        <a href="/pages/kbfunctions/common" class="btn btn-primary">
+          See documentation
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+    </div>
+  </body>
+</html>

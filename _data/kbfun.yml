@@ -1,0 +1,29 @@
+- name: search
+  link: /wir_project/pages/kbfunctions/search
+  desc: This function search for a particular node in the GKG.
+
+- name: createListOfNodes
+  link: /wir_project/pages/kbfunctions/createlist
+  desc: This function put the nodes in a list.
+
+- name: takeTheFirstNode
+  link: /n
+  desc: This function returns as output the first node of the GKG for a certain query.
+
+- name: createIDSet
+  link: /n
+  desc: This function creates the set of nodeID, since with sets it is easier to see containment of one node into another lineage.
+
+- name: tweetTag
+  link: /wir_project/pages/kbfunctions/tweetTag
+  desc: This function returns the set of tags that better describes the tweet.
+
+- name: getTypes
+  link: /n
+  desc: This function takes as input a list of entities and returns the list of their own types.
+
+- name: commonNodes
+  link: /wir_project/pages/kbfunctions/common
+  desc: This function returns a list containing common nodes of two different lineages l1 and l2, represented
+        by two lists; then the new score is computed and it is obtained by adding the two score, s1 + s2. The 
+        formula on the paper does not apply since the scores are not percentage.

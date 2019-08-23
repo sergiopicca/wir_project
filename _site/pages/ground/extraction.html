@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ground truth</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <!--Theme-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" href="#">SergioCode</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/">Home</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/about.html">Classification functions</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/probabilities">Probabilities</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/tweet_classification">Tweet Classification</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/kb">Discovering the KB</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/inverted">Creating the index</a>
+  
+  		<li class="nav-item active">
+    	<a class="nav-link" href="/pages/ground">Ground Truth</a>
+  
+</nav>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Ground truth</h1>
+      <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
+      <h3>TypesExtraction.py</h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the link to the codes with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="tags-for-tweets">Tags for tweets</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">path</span> <span class="o">=</span> <span class="s">"myfile.csv"</span>
+<span class="c1">#path of your dataset
+</span><span class="n">trial</span> <span class="o">=</span> <span class="n">readCSV</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+
+<span class="c1">#taggedTweets will be the list of tagged tweets
+</span><span class="n">taggedTweets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">trial</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">You still have: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span> <span class="o">-</span> <span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="s">" tweets left"</span><span class="p">)</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'full_text'</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">AUTHOR: "</span> <span class="o">+</span>  <span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'screen_name'</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">TWEET:</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"This are the entities obtained by preprocessing:"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">SUGGESTED TYPES:"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">getTypes</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+</code></pre></div></div>
+<h3 id="we-use-the-function-get_types-of-the-kbfunctionspy-to-get-the-types-of-the-tweet-in-order-to-have-some-suggestions">We use the function <code class="highlighter-rouge">get_types</code> of the <code class="highlighter-rouge">KBfunctions.py</code> to get the types of the tweet, in order to have some suggestions.</h3>
+<p>Once we have decided we have then to insert the type, that will be associated to the tweet.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
+
+    <span class="c1">#propt to tag the tweet
+</span>    <span class="n">inputType</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"Enter tag for the tweet (one or more, if more us a </span><span class="se">\'</span><span class="s">,</span><span class="se">\'</span><span class="s"> )</span><span class="se">\n</span><span class="s">"</span>
+                      <span class="s">"If you want to quit, type </span><span class="se">\"</span><span class="s">STOP</span><span class="se">\"</span><span class="s">: "</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">inputType</span> <span class="o">==</span> <span class="s">"STOP"</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="n">labeledTweet</span> <span class="o">=</span> <span class="p">{</span> <span class="s">'id'</span><span class="p">:</span> <span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">),</span>
+                     <span class="s">'screen_name'</span><span class="p">:</span> <span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'screen_name'</span><span class="p">),</span>
+                     <span class="s">'created_at'</span><span class="p">:</span> <span class="n">tweet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'created_at'</span><span class="p">),</span>
+                     <span class="s">'full_text'</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                     <span class="s">'tag'</span><span class="p">:</span> <span class="n">inputType</span>
+    <span class="p">}</span>
+
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">taggedTweets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">labeledTweet</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"-"</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
+
+
+
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"*"</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">The labeled tweets are:</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1">#recap of your labeling process
+</span><span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">taggedTweets</span><span class="p">:</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">))</span> <span class="o">+</span> <span class="s">" | "</span> <span class="o">+</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'full_text'</span><span class="p">)</span> <span class="o">+</span> <span class="s">" | "</span> <span class="o">+</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'tag'</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">YOU HAVE LABELED "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="s">" TWEETS</span><span class="se">\n</span><span class="s"> "</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Please check your work...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="n">decision</span> <span class="o">=</span> <span class="s">""</span>
+</code></pre></div></div>
+<p>We give the possibility to modify the tweet by writing the id of the tweet for which we want to change the selected tags.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">modify</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"Do you need to modify something? y/n: "</span><span class="p">)</span>
+
+<span class="c1">#you can decide to modify something if you want
+</span><span class="k">while</span> <span class="n">modify</span> <span class="o">==</span> <span class="s">"y"</span><span class="p">:</span>
+    <span class="n">decision</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"If you are not sure about one label, write the id of the tweet that you want to change.</span><span class="se">\n</span><span class="s">"</span>
+                     <span class="s">"Write </span><span class="se">\"</span><span class="s">OK</span><span class="se">\"</span><span class="s"> if everything is good: "</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">decision</span> <span class="o">==</span> <span class="s">"OK"</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="n">newLabel</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"Write the new label that you want (one or more, if more us a </span><span class="se">\'</span><span class="s">,</span><span class="se">\'</span><span class="s"> ): "</span><span class="p">)</span>
+    <span class="n">elem</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">taggedTweets</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s">"id"</span><span class="p">]</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">decision</span><span class="p">))</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'full_text'</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'created_at'</span><span class="p">)</span>
+    <span class="n">screen_name</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'screen_name'</span><span class="p">)</span>
+
+    <span class="n">taggedTweets</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">taggedTweets</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s">"id"</span><span class="p">]</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">decision</span><span class="p">)))</span>
+
+    <span class="n">toReplace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'id'</span><span class="p">:</span> <span class="n">decision</span><span class="p">,</span>
+        <span class="s">'screen_name'</span><span class="p">:</span> <span class="n">screen_name</span><span class="p">,</span>
+        <span class="s">'created_at'</span><span class="p">:</span> <span class="n">created_at</span><span class="p">,</span>
+        <span class="s">'full_text'</span><span class="p">:</span><span class="n">text</span><span class="p">,</span>
+        <span class="s">'tag'</span><span class="p">:</span> <span class="n">newLabel</span>
+    <span class="p">}</span>
+    <span class="n">taggedTweets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toReplace</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"The element:"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">toReplace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">))</span> <span class="o">+</span> <span class="s">" | "</span> <span class="o">+</span> <span class="n">toReplace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'full_text'</span><span class="p">)</span> <span class="o">+</span> <span class="s">" | "</span> <span class="o">+</span> <span class="n">toReplace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'tag'</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Has been correctly added to the list</span><span class="se">\n</span><span class="s">."</span><span class="p">)</span>
+
+</code></pre></div></div>
+<h3 id="once-we-have-done-we-save-our-work">Once we have done we save our work.</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">save</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"Do you want to save your work? y/n: "</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">save</span> <span class="o">==</span> <span class="s">'y'</span><span class="p">:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="n">writeNewCSV</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">taggedTweets</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">finalDecision</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"ARE YOU REALLY SURE TO NOT SAVE? y/n: "</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">finalDecision</span> <span class="o">==</span> <span class="s">'n'</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="n">writeNewCSV</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">taggedTweets</span><span class="p">)</span>
+</code></pre></div></div>
+
+    </section>
+    <footer class="m-5">
+      <a href="/pages/ground" class="btn btn-outline-primary" role="button" aria-pressed="true">Back to the function mainpage</a>
+    </footer>
+  </body>
+</html>

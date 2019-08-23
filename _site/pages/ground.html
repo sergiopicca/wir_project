@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Ground truth</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -54,47 +54,27 @@
   
 </nav>
   	<div class="jumbotron">
-  	  <h1 class="display-3">Home</h1>
+  	  <h1 class="display-3">Ground truth</h1>
       <h1>Entity Extraction, Linking, Classification, and Tagging for Social Media: A Wikipedia-Based Approach.</h1>
-      <h3></h3>
+      <h3>TypesExtraction.py - EnterRepresentingTag.py</h3>
   	  <p class="lead">From the Web Information Retrieval's project</p>
   	  <hr class="my-4">
   	  <p>In the navbar you can find all the link to the codes with their explanation.</p>
   	</div>
     <section class="m-5">
-      <div class="alert alert-dismissible alert-primary">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>This my documentation</strong>. You find all the useful things right on the nice navbar...
-</div>
-<h1>Documentation Progress</h1>
-<div class="progress">
-  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-</div>
+      <h1 id="we-need-a-ground-truth">We need a ground truth</h1>
 
-<div class="card text-white bg-primary my-3">
-  <div class="card-header">What you will find?</div>
-  <div class="card-body">
-    <h4 class="card-title">Description of the functions</h4>
-    <p class="card-text">There is the code used for the different functions created to classify the tweets, by the usage of the Google Knowledge Graph.</p>
-  </div>
-</div>
+<h2 id="our-dataset-is-composed-of-unlabeled-tweets-since-we-retrieved-them-thanks-to-twitter-apis-we-need-to-manually-label-the-tweet">Our dataset is composed of unlabeled tweets since we retrieved them thanks to Twitter APIs. We need to manually label the tweet.</h2>
+<h3 id="the-idea">The idea</h3>
 
-<div>
-	<h3>The general idea for classify</h3>
-	<p>
-		The Google Knowledge Graph provides to us different node depending on the query we submit, in particular the subject of each query is an entity, that can be a name of a VIP, a place, whatever! The list of nodes of an entity is called from the paper's authors <strong>lineage</strong>. A tweet may have different of those entities, that may be related together, so the assumption is that related entities could have common nodes.
+<p>In the GKG we have a lot of types for different entities from the most general to the most specific, such as “Thing”,Movie”,”MovieSeries”,”EducationalOrganization” and so on. The idea was to use the information present in the KB, so for each tweet we use the functions in the <code class="highlighter-rouge">KBfunctions.py</code> to propose the best types for each tweet than each of us manually decide which is the best from the one returned or select another one from the types of the GKG.</p>
 
-	</p>
-	<h2>We looking for common nodes!</h2>
-	<h4>...but things are not so good sometimes.</h4> 
+<h3 id="we-splitted-the-dataset-in-three-to-be-fair">We splitted the dataset in three to be fair</h3>
+<ol>
+  <li>First we decide to assign one or more type for the tweet. <a href="/pages/ground/extraction">See the code</a></li>
+  <li>We select only one type. <a href="/pages/ground/represent">See the code</a></li>
+</ol>
 
-	<p>
-		In some cases we are not so lucky, because in our experiment we decided to simplify a little bit stuffs by no considering the context of a tweet, that can be web traffic in that day, events happened in that day, all the things that can influence users. Indeed...
-
-	</p>
-	<h2>...classify tweets with no context is difficult!</h2>
-	<h4>We tried to do our best (finger crossed). </h4> 
-</div>
     </section>
   </body>
 </html>

@@ -15,7 +15,6 @@ for author a, p =  ________________________
 
                         #tweets_of_a
 ```
-
 # Get probabilities
 
 ```python

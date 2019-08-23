@@ -187,7 +187,7 @@ Same stuff as in the case of multiple nodes in common...
         return predicted_tag
 ```
 ## Only one node
-### Maybe was not possible to extract any entity from the tweet or the entities have empty lineages:(
+### Maybe the entities have empty lineages:(
 
 If the we are in the case in which the entities have empty lineages, we return the type with highest probabilityfor the author. This really helps the classifier and this choice is due the fact that in the case in which have no nodes in common is difficult to establish which is the correct class and so is the part where the number of error increases.
 ```python
@@ -199,7 +199,6 @@ If the we are in the case in which the entities have empty lineages, we return t
 ```
 ### Links
 
-- [```one_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/one.html)
-- [```multiple_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/multiple.html)
-- [```no_common_nodes_types(entities,inverted_index,target_names,author,p)``` ](/wir_project/pages/none.html)
-    
+- [```one_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/one.html)
+- [```multiple_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/multiple.html)
+- [```no_common_nodes_types(entities,inverted_index,target_names,author,p)``` ](/pages/none.html)

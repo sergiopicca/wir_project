@@ -13,6 +13,13 @@
 
     <!--Theme-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style type="text/css">
+      .language-python {
+        background-color: #eceff1;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
   </head>
   <body>
   	{% include navigation.html %}
@@ -27,5 +34,8 @@
     <section class="m-5">
       {{ content }}
     </section>
+    <div class="m-5">
+      {% include kb_fun.html%}
+    </div>
   </body>
 </html>
