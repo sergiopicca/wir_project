@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Classification Functions
-code_title: Classification_functions.py - no_common_node_types
+code_title: Classification_functions.py - multiple_node_types
 ---
 We start by printing all the common nodes in the ```common_nodes``` list.
 ```python
