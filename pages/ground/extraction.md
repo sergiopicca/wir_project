@@ -2,7 +2,7 @@
 layout: function
 title: Ground truth
 code_title: TypesExtraction.py
-main: /pages/ground
+main: /wir_project/pages/ground
 ---
 # Tags for tweets
 

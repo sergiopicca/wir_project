@@ -2,7 +2,7 @@
 layout: function
 title: Ground truth
 code_title: EnterRepresentingTag.py
-main: /pages/ground
+main: /wir_project/pages/ground
 ---
 # Decide for the most representative tag
 
