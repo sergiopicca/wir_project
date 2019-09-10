@@ -119,7 +119,7 @@ We consider the different combination of entities extracted from the tweet and t
 ```
 Depending on the size of the ```common_nodes``` list, we may have different cases, according to the length of common nodes. First of all:
 - ```common_nodes``` is ***not empty***:
-	- Only one node is present. [See the ```one_nodes_types``` ](/wir_project/pages/one.html)
+	- Only one node is present. [See the ```one_nodes_types``` ]()
 ```python
         if common_nodes:
             print("\nCOMMON NODES!\n")
