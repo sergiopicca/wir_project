@@ -10,8 +10,8 @@ dictionary indexed by the author's name, where p is:
 
 ```python
                         
-                    #tweets_with_that_type 
-for author a, p =  ________________________
+                      #tweets_of_a_with_type_t 
+for author a, t, p =  ________________________
 
                         #tweets_of_a
 ```
